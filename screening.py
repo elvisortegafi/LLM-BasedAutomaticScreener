@@ -16,6 +16,8 @@ api_key=os.environ.get("OPENAI_KEY"),
 def load_data(csv_path):
     return pd.read_csv(csv_path)
 
+#Updated code to use the OpenAI API to generate the response (client.chat.completions.create)
+
 def return_criteria(df, instructions, inclusion_criteria, exclusion_criteria, show_prompt=False):
     """
     Parameters:
@@ -95,6 +97,7 @@ def loop_through_df(df, instructions, save_ckpt=True, sample=False, sample_n=3, 
         exclusion_criteria = row['Exclusion Criteria']
         try:
             temp_df['decision'] = temp_df.apply(lambda x: return_criteria(x, instructions, inclusion_criteria, exclusion_criteria), axis=1)
+        #Updated code to handle exceptions and print the error message
         except Exception as e:
             print(f"Error processing file: {e}")
             print(f'Error processing {row["Dataset Name"]}')
